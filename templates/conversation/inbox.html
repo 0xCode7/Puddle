@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+    inbox
+{% endblock %}
+{% block content %}
+
+    <ul class="space-y-2 font-medium">
+        {% for conversation in conversations %}
+            <li>
+                <a href="{% url 'conversation:chat' conversation.id %}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white bg-gray-700 dark:hover:bg-gray-800 transition duration-200 group">
+                    <img class="aspect-circle w-15 h-15 rounded" src="{{ conversation.item.image.url }}"
+                         alt="{{ conversation.item.name }}">
+                    <span class="ms-3">
+                        {% for member in conversation.members.all %}
+                            {% if member != request.user %}
+                                <strong>{{ member.username }}</strong> | {{ conversation.updated_at }}
+                                <br>
+                                <span class="text-sm {% if conversation.messages.last.user == request.user %} text-gray-500 {% else %}text-green-500{% endif %}">{{ conversation.messages.last.content }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+{% endblock %}

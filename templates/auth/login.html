@@ -1,0 +1,77 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <section class="bg-gray-50 dark:bg-gray-900">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        Login
+                    </h1>
+                    <form class="space-y-4 md:space-y-6" action="{% url 'auth:login' %}" method="post">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="bg-transparent border border-gray-400 text-red-500 px-4 py-2 rounded mb-4">
+                                {% for error in form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div>
+                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+
+                            {{ form.username }}
+                            {% for error in form.username.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                            <div class="relative">
+                                {{ form.password }}
+                                <button type="button" id="toggleBtn"
+                                        class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500">
+                                    <svg class="shrink-0 size-3.5" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" id="eye">
+                                        <path class="hs-password-active:hidden"
+                                              d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                                        <path class="hs-password-active:hidden"
+                                              d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                                        <path class="hs-password-active:hidden"
+                                              d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                                        <line class="hs-password-active:hidden" x1="2" x2="22" y1="2" y2="22"></line>
+                                        <path class="hidden hs-password-active:block"
+                                              d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                                        <circle class="hidden hs-password-active:block" cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            {% for error in form.password.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="w-full text-white cursor-pointer bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Log in
+                        </button>
+                        <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
+                            not have an account? <a href="{% url 'auth:signup' %}"
+                                                    class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign
+                            up</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
